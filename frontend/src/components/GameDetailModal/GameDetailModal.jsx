@@ -183,6 +183,7 @@ export function GameDetailModal({ opened, onClose, game, onStatusChange, onDelet
                           const isSelected = isLibraryGame && currentStatus === btn.status;
                           const buttonStyle = {
                             background: btn.bg,
+                            color: isSelected ? '#fff' : undefined,
                             transform: isSelected ? 'scale(1.05)' : 'scale(1)',
                             boxShadow: isSelected ? 'inset 0 0 0 2px #fff, 0 5px 15px rgba(0,0,0,0.3)' : 'none',
                             transition: 'transform 0.2s ease, box-shadow 0.2s ease',
@@ -197,7 +198,7 @@ export function GameDetailModal({ opened, onClose, game, onStatusChange, onDelet
                               radius="xl"
                               size="sm"
                               loading={savingGame}
-                              disabled={savingGame || isSelected}
+                              disabled={savingGame}
                               style={buttonStyle}
                             >
                               {btn.label}
@@ -225,14 +226,14 @@ export function GameDetailModal({ opened, onClose, game, onStatusChange, onDelet
                 onClick={handleDelete}
                 style={{
                   background: 'rgba(220, 53, 69, 0.25)',
-                  color: 'rgb(220, 53, 69)',
+                  color: '#fff',
                   fontSize: '13px',
                   fontWeight: '500',
                   padding: '0.6rem 1.2rem',
                   border: '1px solid rgba(220, 53, 69, 0.4)'
                 }}
               >
-                <IconTrash size={18} style={{ marginRight: '0.4rem' }} />
+                <IconTrash size={18} style={{ marginRight: '0.4rem', color: '#fff' }} />
                 Eliminar
               </Button>
             </div>
