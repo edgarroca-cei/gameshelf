@@ -78,11 +78,16 @@ export function SearchDropdown({ onGameSelect, className }) {
   // Calcula la posición del dropdown cuando se abre
   useEffect(() => {
     if (isOpen && searchRef.current) {
-      const rect = searchRef.current.getBoundingClientRect();
-      setDropdownPosition({
-        top: rect.bottom,
-        left: rect.left,
-      });
+      const header = document.querySelector('header');
+      const searchRect = searchRef.current.getBoundingClientRect();
+
+      if (header) {
+        const headerRect = header.getBoundingClientRect();
+        setDropdownPosition({
+          top: headerRect.bottom,
+          left: searchRect.left,
+        });
+      }
     }
   }, [isOpen]);
 
