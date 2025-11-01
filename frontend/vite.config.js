@@ -14,7 +14,6 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: false,
     assetsDir: 'assets',
-    cssCodeSplit: false, // Deshabilitar la división de CSS
   },
   css: {
     devSourcemap: true,
