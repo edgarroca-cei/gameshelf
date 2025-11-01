@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom
 
 // Importamos MantineProvider para los componentes de UI
 import { MantineProvider } from '@mantine/core';
+import { theme } from './theme'; // Importar el tema personalizado
 
 // Importamos componentes de la aplicación
 import { TopHeader } from './components/TopHeader/TopHeader';
@@ -75,7 +76,7 @@ function MainLayout() {
 function App() {
   return (
     // MantineProvider envuelve toda la aplicación para proporcionar estilos y componentes
-    <MantineProvider>
+    <MantineProvider theme={theme}>
       {/* Proveedor de autenticación que envuelve toda la aplicación */}
       <AuthProvider>
         <BrowserRouter>

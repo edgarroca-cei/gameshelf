@@ -69,6 +69,7 @@ export function GameDetailModal({ opened, onClose, game, onStatusChange, onDelet
       opened={opened}
       onClose={onClose}
       title={null}
+      withCloseButton={false}
       size="xl"
       centered
       classNames={{
