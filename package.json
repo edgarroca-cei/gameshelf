@@ -1,0 +1,22 @@
+{
+  "name": "gameshelf-fullstack",
+  "version": "1.0.0",
+  "description": "Aplicación MERN completa para gestión de biblioteca de videojuegos",
+  "scripts": {
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "start": "cd backend && npm start",
+    "dev": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "clean": "cd backend && rm -rf node_modules && cd ../frontend && rm -rf node_modules && rm -rf node_modules"
+  },
+  "keywords": [
+    "mern",
+    "react",
+    "express",
+    "mongodb",
+    "gameshelf",
+    "fullstack"
+  ],
+  "author": "Edgar",
+  "license": "ISC"
+}

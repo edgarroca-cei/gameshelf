@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: gameshelf-api
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: MONGODB_URI
+        scope: all
+        value: mongodb+srv://gameshelfuser:Gameshelf123@cluster0.batkwbj.mongodb.net/?appName=Cluster0
+      - key: JWT_SECRET
+        scope: all
+        value: your_super_secret_jwt_key_here
+      - key: NODE_ENV
+        scope: all
+        value: production
+      - key: PORT
+        scope: all
+        value: 10000
+      - key: RAWG_API_KEY
+        scope: all
+        value: your_api_key_here
+      - key: CORS_ORIGIN
+        scope: all
+        value: https://gameshelf.vercel.app
