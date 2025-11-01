@@ -89,15 +89,7 @@ export function GameDetailModal({ opened, onClose, game, onStatusChange, onDelet
       withinPortal={true}
     >
       <div className={classes.container}>
-        {/* Botón cerrar */}
-        <ActionIcon
-          className={classes.closeButton}
-          variant="transparent"
-          onClick={onClose}
-          size="lg"
-        >
-          <IconX size={24} />
-        </ActionIcon>
+
 
         {/* Información del juego agrupada en cápsulas */}
         <Stack gap="lg" className={classes.content}>
@@ -164,64 +156,59 @@ export function GameDetailModal({ opened, onClose, game, onStatusChange, onDelet
                     {
                       status: 'Pendiente',
                       color: 'pink',
-                      bg: '#D83772', // Color sólido para mejor contraste
-                      label: currentStatus === 'Pendiente' && isLibraryGame ? 'Por jugar' : (isLibraryGame ? 'Pendiente' : 'Por jugar')
+                      bg: '#D83772',
+                      label: 'Por jugar'
                     },
                     {
                       status: 'Jugando',
                       color: 'blue',
-                      bg: '#3366FF', // Color sólido para mejor contraste
-                      label: currentStatus === 'Jugando' && isLibraryGame ? 'Jugando' : (isLibraryGame ? 'Jugando' : 'Jugando')
+                      bg: '#3366FF',
+                      label: 'Jugando'
                     },
                     {
                       status: 'Completado',
                       color: 'green',
-                      bg: '#2E8B57', // Color sólido para mejor contraste
-                      label: currentStatus === 'Completado' && isLibraryGame ? 'Completado' : (isLibraryGame ? 'Completado' : 'Completado')
+                      bg: '#2E8B57',
+                      label: 'Completado'
                     }
                   ];
 
-                  if (isDesktop) {
+                  const renderButtons = (orientation) => {
+                    const Wrapper = orientation === 'stack' ? Stack : Group;
+                    const props = orientation === 'stack' ? { gap: 'sm', align: 'center' } : { gap: 'xs', justify: 'center', wrap: 'nowrap' };
+
                     return (
-                      <Group gap="xs" justify="center" wrap="nowrap">
-                        {buttons.map(btn => (
-                          <Button
-                            key={btn.status}
-                            variant={currentStatus === btn.status && isLibraryGame ? 'outline' : 'filled'}
-                            color={btn.color}
-                            onClick={() => buttonHandler(btn.status)}
-                            radius="xl"
-                            size="sm"
-                            loading={savingGame}
-                            disabled={savingGame || (isLibraryGame && currentStatus === btn.status)}
-                            style={{ background: btn.bg }}
-                          >
-                            {btn.label}
-                          </Button>
-                        ))}
-                      </Group>
+                      <Wrapper {...props}>
+                        {buttons.map(btn => {
+                          const isSelected = isLibraryGame && currentStatus === btn.status;
+                          const buttonStyle = {
+                            background: btn.bg,
+                            boxShadow: isSelected ? 'inset 0 0 0 2px rgba(255, 255, 255, 0.9)' : 'none',
+                            opacity: !isLibraryGame ? 1 : (isSelected ? 1 : 0.6),
+                            transition: 'opacity 0.2s ease, box-shadow 0.2s ease',
+                          };
+
+                          return (
+                            <Button
+                              key={btn.status}
+                              variant="filled"
+                              color={btn.color}
+                              onClick={() => buttonHandler(btn.status)}
+                              radius="xl"
+                              size="sm"
+                              loading={savingGame}
+                              disabled={savingGame || isSelected}
+                              style={buttonStyle}
+                            >
+                              {btn.label}
+                            </Button>
+                          );
+                        })}
+                      </Wrapper>
                     );
-                  } else {
-                    return (
-                      <Stack gap="sm" align="center">
-                        {buttons.map(btn => (
-                          <Button
-                            key={btn.status}
-                            variant={currentStatus === btn.status && isLibraryGame ? 'outline' : 'filled'}
-                            color={btn.color}
-                            onClick={() => buttonHandler(btn.status)}
-                            radius="xl"
-                            size="sm"
-                            loading={savingGame}
-                            disabled={savingGame || (isLibraryGame && currentStatus === btn.status)}
-                            style={{ background: btn.bg }}
-                          >
-                            {btn.label}
-                          </Button>
-                        ))}
-                      </Stack>
-                    );
-                  }
+                  };
+
+                  return isDesktop ? renderButtons('group') : renderButtons('stack');
                 })()}
               </Stack>
             </div>
