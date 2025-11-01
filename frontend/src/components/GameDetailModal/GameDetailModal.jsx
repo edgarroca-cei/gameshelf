@@ -116,7 +116,7 @@ export function GameDetailModal({ opened, onClose, game, onStatusChange, onDelet
                   {game.rating && (
                     <Group gap={4}>
                       <Text size="lg" fw={700}>⭐ {game.rating.toFixed(1)}</Text>
-                      <Text size="sm" c="dimmed">/5</Text>
+                      <Text size="sm">/5</Text>
                     </Group>
                   )}
 
@@ -145,7 +145,7 @@ export function GameDetailModal({ opened, onClose, game, onStatusChange, onDelet
             {/* Cápsula para guardar/actualizar estado */}
             <div className={classes.libraryCapsule} style={{ flex: 1 }}>
               <Stack gap="xs" align="center" justify="center" h="100%">
-                <Text size="sm" fw={500} c="dimmed" ta="center">
+                <Text size="sm" fw={500} ta="center">
                   {isLibraryGame ? 'ACTUALIZAR ESTADO' : 'GUARDAR EN BIBLIOTECA'}
                 </Text>
                 {(() => {
@@ -183,9 +183,9 @@ export function GameDetailModal({ opened, onClose, game, onStatusChange, onDelet
                           const isSelected = isLibraryGame && currentStatus === btn.status;
                           const buttonStyle = {
                             background: btn.bg,
-                            boxShadow: isSelected ? 'inset 0 0 0 2px rgba(255, 255, 255, 0.9)' : 'none',
-                            opacity: !isLibraryGame ? 1 : (isSelected ? 1 : 0.6),
-                            transition: 'opacity 0.2s ease, box-shadow 0.2s ease',
+                            transform: isSelected ? 'scale(1.05)' : 'scale(1)',
+                            boxShadow: isSelected ? 'inset 0 0 0 2px #fff, 0 5px 15px rgba(0,0,0,0.3)' : 'none',
+                            transition: 'transform 0.2s ease, box-shadow 0.2s ease',
                           };
 
                           return (
