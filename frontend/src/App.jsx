@@ -76,7 +76,7 @@ function MainLayout() {
 function App() {
   return (
     // MantineProvider envuelve toda la aplicación para proporcionar estilos y componentes
-    <MantineProvider theme={theme}>
+    <MantineProvider theme={theme} defaultColorScheme="dark">
       {/* Proveedor de autenticación que envuelve toda la aplicación */}
       <AuthProvider>
         <BrowserRouter>
