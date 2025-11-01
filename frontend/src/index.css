@@ -1,0 +1,98 @@
+/* Estilos globales y configuración del fondo */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
+  color: #FFFFFF;
+  font-family: 'Poppins', sans-serif;
+  overflow: auto;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Global responsive fixes */
+
+/* Prevent horizontal overflow on any container */
+.container, .wrapper, .app, .main, .content, .page, .section {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+/* Additional mobile-specific fixes */
+@media (max-width: 768px) {
+  * {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Prevent text selection issues on mobile */
+  .mantine-Button-root,
+  .mantine-TextInput-input,
+  .mantine-Textarea-input {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+  }
+
+  /* Ensure flex items don't shrink inappropriately */
+  .mantine-Grid-root .mantine-Grid-col {
+    min-width: 0;
+    flex-shrink: 1;
+  }
+
+  /* Prevent flex wrap issues */
+  .mantine-Group-root {
+    flex-wrap: wrap;
+  }
+}
+
+/* Clase de utilidad para el efecto Glassmorphism */
+.glassmorphism {
+  background: rgba(42, 43, 64, 0.4);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Scrollbar personalizada - Oculta la scrollbar visualmente */
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: transparent;
+}
+
+/* Para Firefox */
+* {
+  scrollbar-width: none;
+}
+
+*::-moz-scrollbar {
+  display: none;
+}

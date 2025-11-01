@@ -1,0 +1,287 @@
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: visible;
+  padding: 0;
+  gap: 0;
+}
+
+.mainLayout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 24px;
+  height: 100%;
+  padding: 24px;
+  background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+}
+
+.leftCapsule {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow-y: auto;
+}
+
+.carouselSection {
+  width: calc(100% + 48px);
+  height: 420px;
+  border-radius: 20px 20px 0 0;
+  overflow: visible;
+  flex-shrink: 0;
+  margin: -24px -24px 0 -24px;
+}
+
+.librarySection {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.libraryRows {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.rightCapsule {
+  height: auto;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  position: sticky;
+  top: 24px;
+  align-self: start;
+}
+
+.verTodosButton {
+  border-radius: 20px !important;
+  transition: all 200ms ease;
+  font-weight: 600;
+}
+
+.verTodosButton:hover {
+  transform: translateX(4px);
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+}
+
+/* Mobile Stats Grid Styles */
+.mobileStatsGrid {
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 20px;
+}
+
+.mobileStatsCard {
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  opacity: 0.7;
+}
+
+.mobileStatsCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--card-color), rgba(255, 255, 255, 0.2));
+  opacity: 0.5;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 12px 12px 0 0;
+}
+
+.mobileStatsCard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+  opacity: 0.1;
+  transition: opacity 0.4s ease;
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+.mobileStatsCard:hover {
+  opacity: 1;
+}
+
+.mobileStatsCard:hover::before {
+  opacity: 0.5;
+}
+
+.mobileStatsCard:hover::after {
+  opacity: 0.3;
+}
+
+.mobileStatsCard:hover .mobileCardGradient {
+  opacity: 0.2;
+}
+
+.mobileStatsCardInner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.mobileCardGradient {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, var(--card-color), transparent);
+  opacity: 0.4;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.mobileStatContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mobileStatLabel {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+  font-weight: 600;
+}
+
+.mobileStatValue {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 1400px) {
+  .mainLayout {
+    grid-template-columns: 1fr 340px;
+    gap: 20px;
+  }
+
+  .leftCapsule {
+    padding: 20px;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .mainLayout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .rightCapsule {
+    display: none;
+  }
+
+  .mobileStatsGrid {
+    display: grid;
+  }
+
+  .mobileStatsCard {
+    opacity: 0.7;
+  }
+
+  .mobileStatsCard::before {
+    opacity: 0.5;
+  }
+
+  .mobileStatsCard::after {
+    opacity: 0.1;
+  }
+
+  .mobileCardGradient {
+    opacity: 0.4;
+  }
+}
+
+@media (max-width: 768px) {
+  .mainLayout {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .leftCapsule {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .rightCapsule {
+    height: auto;
+    max-height: 280px;
+  }
+}
+
+/* Media queries adicionales para móviles pequeños */
+@media (max-width: 640px) {
+  .mainLayout {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .leftCapsule {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .rightCapsule {
+    height: auto;
+    max-height: 240px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mainLayout {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .leftCapsule {
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .rightCapsule {
+    height: auto;
+    max-height: 200px;
+  }
+
+  .librarySection {
+    gap: 12px;
+  }
+
+  .libraryRows {
+    gap: 16px;
+  }
+}

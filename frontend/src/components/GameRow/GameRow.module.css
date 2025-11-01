@@ -1,0 +1,74 @@
+.container {
+  margin-bottom: 0.5rem;
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scrollArea {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: visible;
+  cursor: grab;
+  scroll-snap-type: x mandatory;
+}
+
+.scrollArea::-webkit-scrollbar {
+  display: none;
+}
+
+
+
+.gamesContainer {
+  display: flex;
+  gap: 1rem;
+  padding: 0 2rem 25px 2rem;
+  min-width: min-content;
+  user-select: none;
+}
+
+.gameSlide {
+  flex: 0 0 240px;
+  min-width: 240px;
+  position: relative;
+  overflow: visible;
+  scroll-snap-align: start;
+}
+
+/* Responsive */
+@media (max-width: 1400px) {
+  .gameSlide {
+    flex: 0 0 220px;
+    min-width: 220px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .gameSlide {
+    flex: 0 0 200px;
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .gameSlide {
+    flex: 0 0 200px;
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .gameSlide {
+    flex: 0 0 180px;
+    min-width: 180px;
+  }
+}

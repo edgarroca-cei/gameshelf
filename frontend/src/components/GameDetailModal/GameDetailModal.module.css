@@ -1,0 +1,220 @@
+.modalContent {
+  background: transparent;
+  backdrop-filter: none;
+  border: none;
+  border-radius: 24px;
+  box-shadow: none;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modalHeader {
+  display: none;
+}
+
+.modalBody {
+  padding: 0;
+}
+
+.container {
+  position: relative;
+  padding: 2.5rem 2rem 2rem 2rem;
+}
+
+.closeButton {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  color: rgba(255, 255, 255, 0.9);
+  transition: all 150ms ease;
+  border-radius: 16px;
+  background: rgba(26, 27, 46, 0.88);
+  border: 1px solid rgba(255, 20, 147, 0.2);
+  z-index: 10;
+}
+
+.closeButton:hover {
+  color: #fff;
+  background-color: rgba(26, 27, 46, 0.95);
+  transform: scale(1.05);
+}
+
+.imageSection {
+  margin-bottom: 2rem;
+}
+
+.imageContainer {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.gameImage {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+  display: block;
+}
+
+.statusBadge {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  z-index: 10;
+  animation: slideInBadge 0.3s ease-out;
+}
+
+@keyframes slideInBadge {
+  from {
+    opacity: 0;
+    transform: translate(10px, 10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+.content {
+  color: #fff;
+}
+
+.title {
+  color: #fff;
+  line-height: 1.3;
+}
+
+.selectInput {
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border-radius: 12px;
+}
+
+.selectInput:focus {
+  border-color: rgba(255, 20, 147, 0.5);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.selectInput::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.statusButton {
+  transition: all 200ms ease;
+  font-weight: 600;
+  border: none;
+  flex: 1;
+}
+
+.statusButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.infoCapsule {
+  background: rgba(26, 27, 46, 0.88);
+  border-radius: 20px;
+  padding: 1.5rem;
+}
+
+.libraryCapsule {
+  background: rgba(26, 27, 46, 0.88);
+  border-radius: 20px;
+  padding: 1.5rem;
+  flex: 1;
+  min-width: 200px;
+}
+
+.listCapsule {
+  background: rgba(26, 27, 46, 0.88);
+  border-radius: 20px;
+  padding: 1.65rem 1.5rem;
+  flex: 0 0 auto;
+  min-width: 140px;
+}
+
+.miniCover {
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.actionsRow {
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .actionsRow {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Reducir altura de la primera cápsula en móvil */
+  .infoCapsule {
+    padding: 1rem;
+  }
+
+  /* Mantener cápsulas lado a lado con misma altura */
+  .libraryCapsule {
+    flex: 2;
+    min-width: 150px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .listCapsule {
+    flex: 1;
+    min-width: 120px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Hacer que ambas cápsulas tengan la misma altura */
+  .modalBody .content > :last-child > :first-child > :first-child,
+  .modalBody .content > :last-child > :first-child > :last-child {
+    flex: 1;
+  }
+
+  /* Mejorar legibilidad de botones en móvil */
+  .statusButton {
+    font-size: 14px;
+    line-height: 1.2;
+    min-height: 36px;
+    padding: 8px 12px;
+  }
+}
+
+/* Animación para texto deslizante en botones largos */
+.statusButton {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+}
+
+.statusButton:hover {
+  animation: scrollText 8s linear infinite;
+}
+
+@keyframes scrollText {
+  0% {
+    transform: translateX(0%);
+  }
+  50% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}

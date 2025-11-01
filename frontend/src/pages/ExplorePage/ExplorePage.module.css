@@ -1,0 +1,203 @@
+/* ExplorePage Styles */
+/* Matching glassmorphism aesthetic from home page */
+
+.pageContainer {
+  min-height: 100vh;
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.1), rgba(30, 144, 255, 0.1));
+  background-attachment: fixed;
+  border-radius: 20px;
+}
+
+.mainLayout {
+  display: grid;
+  grid-template-columns: 1fr 250px;
+  gap: 24px;
+  align-items: start;
+  padding: 24px;
+  background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+  border-radius: 20px;
+}
+
+.leftCapsule {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow: visible;
+}
+
+.rightCapsule {
+  height: auto;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 24px;
+}
+
+.flexGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  justify-content: center;
+  position: relative;
+}
+
+@media (max-width: 1400px) {
+  .flexGrid {
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .flexGrid {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .flexGrid {
+    gap: 1rem;
+  }
+}
+
+.gameItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem 1rem;
+  transition: all 0.3s ease;
+  background: transparent;
+  animation: fadeInGame 0.6s ease-out;
+  position: relative;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+@keyframes fadeInGame {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.gameItem:hover {
+  transform: translateY(-12px);
+  z-index: 5;
+}
+
+.gameInfo {
+  margin-top: 1rem;
+  text-align: center;
+  max-width: 100%;
+  color: #ffffff;
+}
+
+.gameInfo .mantine-Text-root {
+  color: #ffffff !important;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modalContent {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  padding: 1.5rem;
+  max-width: 500px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  color: #ffffff;
+}
+
+.filtersCard {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.loadMoreButton {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50px;
+  color: #ffffff;
+}
+
+.loadMoreButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+
+
+/* Responsive */
+@media (max-width: 1400px) {
+  .mainLayout {
+    grid-template-columns: 1fr 250px;
+    gap: 20px;
+  }
+
+  .leftCapsule {
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .rightCapsule {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .mainLayout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .rightCapsule {
+    max-height: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mainLayout {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .leftCapsule {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .rightCapsule {
+    height: auto;
+    max-height: 140px;
+    padding: 16px;
+  }
+}

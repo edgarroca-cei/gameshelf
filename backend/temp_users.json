@@ -1,0 +1,13 @@
+[
+  {
+    "_id": "admin-1761989853430",
+    "username": "admin",
+    "email": "admin@gameshelf.com",
+    "password": "$2b$10$yJyYpeTIHr09c36qI/yY7OQ.URkujUnWCSNj/.t787IcHd4WxfOOm",
+    "avatar": null,
+    "bio": "Usuario administrador creado automáticamente para modo demo.",
+    "isPublic": true,
+    "createdAt": "2025-11-01T09:37:33.430Z",
+    "updatedAt": "2025-11-01T09:37:33.430Z"
+  }
+]
