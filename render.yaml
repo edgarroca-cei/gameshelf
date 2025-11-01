@@ -12,7 +12,7 @@ services:
         value: mongodb+srv://gameshelfuser:Gameshelf123@cluster0.batkwbj.mongodb.net/?appName=Cluster0
       - key: JWT_SECRET
         scope: all
-        value: your_super_secret_jwt_key_here
+        value: tu_secreto_jwt_super_seguro_cambiar_en_produccion
       - key: NODE_ENV
         scope: all
         value: production
@@ -21,7 +21,7 @@ services:
         value: 10000
       - key: RAWG_API_KEY
         scope: all
-        value: your_api_key_here
+        value: 62aa1bfcb3464797b03f36c9f8706351
       - key: CORS_ORIGIN
         scope: all
         value: https://gameshelf.vercel.app
