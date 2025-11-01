@@ -171,7 +171,21 @@
     font-size: 12px;
 }
 
-/* Tablet responsive */
+/* ===========================================
+   RESPONSIVE DESIGN - CLEAN BREAKPOINTS
+   =========================================== */
+
+/* Desktop (>1024px) - Default state
+   - Show desktop search
+   - Hide mobile components
+   - Show full navigation
+*/
+
+/* Tablet (768px - 1024px)
+   - Compact navigation
+   - Show mobile search icon
+   - Hide desktop search
+*/
 @media (max-width: 1024px) {
     .header {
         padding: 0 16px;
@@ -194,33 +208,22 @@
         flex-shrink: 1;
         min-width: 0;
     }
-}
 
-/* Small tablet - hide navigation */
-@media (max-width: 900px) {
-    .header {
-        padding: 0 16px;
-        gap: 16px;
-        justify-content: space-between;
-    }
-
+    /* Show mobile search, hide desktop search */
     .mobileSearchIcon {
         display: flex !important;
-        flex-shrink: 0;
     }
 
-    .rightSection {
-        min-width: 0;
-        flex-shrink: 2; /* Reduce más que otros elementos */
-    }
-
-    /* Hide desktop search in mobile */
     .rightSection > :first-child {
         display: none;
     }
 }
 
-/* Mobile responsive */
+/* Mobile (<768px)
+   - Hide navigation links
+   - Show mobile search and menu trigger
+   - Compact layout
+*/
 @media (max-width: 768px) {
     .header {
         padding: 0 6px;
@@ -228,7 +231,7 @@
         justify-content: space-between;
         flex-wrap: nowrap;
         overflow-x: hidden;
-        position: relative; /* Para las posiciones absolutas */
+        position: relative;
     }
 
     .logo {
@@ -242,13 +245,21 @@
         pointer-events: none;
     }
 
+    /* Hide navigation */
+    .navLinks {
+        display: none;
+    }
+
+    /* Show mobile components */
     .mobileSearchIcon {
-        display: flex !important; /* Mostrar icono de búsqueda en móvil */
+        display: flex !important;
         flex-shrink: 0;
         padding: 8px;
         min-width: auto;
         transition: all 0.3s ease;
-        border-radius: 50% !important; /* Always circular */
+        border-radius: 50% !important;
+        order: -1;
+        margin-right: 12px;
     }
 
     .mobileSearchIcon.expanded {
@@ -265,6 +276,11 @@
         box-shadow: none;
     }
 
+    .mobileMenuTrigger {
+        display: flex !important;
+        flex-shrink: 0;
+    }
+
     .rightSection {
         gap: 8px;
         flex-shrink: 2;
@@ -274,25 +290,9 @@
         align-items: center;
         display: flex;
     }
-
-    .mobileSearchIcon {
-        order: -1; /* Move search icon before other elements for better centering */
-        margin-right: 12px;
-    }
 }
 
-@media (max-width: 600px) {
-    .navLinks {
-        display: none;
-    }
-
-    .mobileMenuTrigger {
-        display: flex !important;
-        flex-shrink: 0;
-    }
-}
-
-/* Very small mobile - extreme compression */
+/* Very small mobile (<350px) - extreme compression */
 @media (max-width: 350px) {
     .header {
         padding: 0 4px;
@@ -319,12 +319,6 @@
         min-width: 0;
         overflow-x: hidden;
     }
-}
-
-.mobileMenuButton,
-.mobileMenuTrigger,
-.mobileSearchIcon {
-    display: none; /* Ocultar por defecto en desktop */
 }
 
 .search :global(.mantine-TextInput-input) {
