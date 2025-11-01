@@ -77,13 +77,19 @@ export function SearchDropdown({ onGameSelect, className }) {
   // Calcula la posición del dropdown cuando se abre
   useEffect(() => {
     if (isOpen && searchRef.current) {
-      const container = searchRef.current;
-      const containerRect = container.getBoundingClientRect();
+      const header = document.querySelector('header');
+      const searchContainer = searchRef.current;
 
-      setDropdownPosition({
-        top: containerRect.height,
-        left: 0,
-      });
+      if (header && searchContainer) {
+        const headerRect = header.getBoundingClientRect();
+        const searchRect = searchContainer.getBoundingClientRect();
+
+        // Position the dropdown at the bottom of the header, aligned with the search input
+        setDropdownPosition({
+          top: headerRect.bottom - searchRect.top,
+          left: 0,
+        });
+      }
     }
   }, [isOpen]);
 
@@ -126,19 +132,19 @@ export function SearchDropdown({ onGameSelect, className }) {
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.currentTarget.value)}
         onFocus={() => searchQuery.trim() && setIsOpen(true)}
-        styles={{
-          input: {
-            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-            border: '1px solid rgba(255, 255, 255, 0.15)',
-            color: '#fff !important',
-            '&::placeholder': {
-              color: 'rgba(255, 255, 255, 0.5)',
+          styles={{
+            input: {
+              backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
+              color: '#fff !important',
+              '&::placeholder': {
+                color: '#fff',
+              },
+              '&:focus': {
+                borderColor: 'rgba(255, 255, 255, 0.5)',
+              },
             },
-            '&:focus': {
-              borderColor: 'rgba(255, 255, 255, 0.5)',
-            },
-          },
-        }}
+          }}
       />
 
       {isOpen && (
