@@ -12,5 +12,16 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: false,
+    cssCodeSplit: false, // Importante para CSS modules en producción
+    rollupOptions: {
+      output: {
+        manualChunks: undefined, // Evita chunking que puede afectar CSS
+      },
+    },
+  },
+  css: {
+    modules: {
+      localsConvention: 'camelCase', // Asegura consistencia en nombres de clase
+    },
   },
 })
