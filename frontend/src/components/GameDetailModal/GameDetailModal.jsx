@@ -101,7 +101,7 @@ export function GameDetailModal({ opened, onClose, game, onStatusChange, onDelet
                 src={game.coverImage || game.background_image}
                 alt={game.title || game.name}
                 width={120}
-                height={200}
+                height={280}
                 radius="md"
                 className={classes.miniCover}
               />
