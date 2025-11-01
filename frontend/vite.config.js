@@ -26,8 +26,7 @@ export default defineConfig({
   },
   css: {
     modules: {
-      localsConvention: 'camelCase',
-      generateScopedName: '[name]__[local]___[hash:base64:5]', // Nombres más consistentes
+      localsConvention: 'camelCaseOnly', // Solo camelCase, sin transformación adicional
     },
     devSourcemap: true, // Mejor debugging en desarrollo
   },
