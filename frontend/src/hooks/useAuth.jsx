@@ -48,16 +48,33 @@ export const AuthProvider = ({ children }) => {
   // Al cargar la aplicación, intentamos restaurar la sesión desde localStorage
   useEffect(() => {
     const tokenGuardado = localStorage.getItem('token');
-    const usuarioGuardado = localStorage.getItem('usuario');
 
-    // Si encontramos datos guardados, restaurar la sesión
-    if (tokenGuardado && usuarioGuardado) {
-      setToken(tokenGuardado);
-      setUsuario(JSON.parse(usuarioGuardado));
+    async function cargarUsuario() {
+      if (tokenGuardado) {
+        try {
+          // Tenemos un token, así que lo usamos para obtener el perfil fresco
+          const response = await getProfile();
+          const usuarioActual = response.data.usuario;
+
+          // Sincronizamos el estado y el localStorage con los datos frescos
+          localStorage.setItem('usuario', JSON.stringify(usuarioActual));
+          setUsuario(usuarioActual);
+          setToken(tokenGuardado); // También establecemos el token en el estado
+
+        } catch (error) {
+          console.error('Token guardado inválido. Limpiando sesión.', error);
+          // Si el token es inválido, limpiamos todo
+          localStorage.removeItem('token');
+          localStorage.removeItem('usuario');
+          setToken(null);
+          setUsuario(null);
+        }
+      }
+      // Terminamos la carga inicial solo después de intentar obtener el usuario
+      setCargando(false);
     }
 
-    // Terminamos la carga inicial
-    setCargando(false);
+    cargarUsuario();
   }, []);
 
   // ========================================================================
