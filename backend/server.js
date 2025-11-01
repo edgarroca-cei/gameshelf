@@ -23,31 +23,15 @@ const app = express();
 const corsOptions = {
   // Función que decide qué orígenes pueden acceder al API
   origin: function (origin, callback) {
-    // Lista de URLs permitidas - incluido localhost para desarrollo y producción
+    // Lista de URLs permitidas
     const allowedOrigins = [
-      'http://localhost:5173', // Vite dev server
-      'http://localhost:5174',
-      'http://localhost:5175',
-      'http://localhost:5176',
-      'http://localhost:5177',
-      'http://localhost:5178',
-      'http://localhost:5179',
-      'http://localhost:5180',
-      'http://localhost:5181',
-      'http://localhost:5182',
-      'http://localhost:5183',
-      'http://localhost:5184',
-      'http://localhost:3000',
-      'http://localhost:8080',
-      'http://127.0.0.1:5173',
-      'http://127.0.0.1:3000',
-      'http://127.0.0.1:8080',
-      'https://gameshelf.vercel.app', // URL de producción en Vercel
-      'https://gameshelf-7uoptwwlo-edgarroca-ceis-projects.vercel.app',
-      process.env.CORS_ORIGIN, // Variable dinámica para producción
-    ].filter(Boolean); // Elimina cualquier valor undefined o null
+      'http://localhost:5173', // Frontend local
+      'https://gameshelf-lyart.vercel.app', // Frontend en Vercel
+      process.env.RENDER_EXTERNAL_URL, // URL del propio backend en Render
+      process.env.CORS_ORIGIN, // Origen personalizado desde variables de entorno
+    ].filter(Boolean);
 
-    // Permite si no hay origen (útil para requests desde mobile apps o Postman)
+    // Permite peticiones sin origen (Postman, apps móviles) o si el origen está en la lista
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -68,13 +52,6 @@ app.use(cors(corsOptions));
 
 // Middleware para parsear JSON automáticamente en las requests
 app.use(express.json());
-
-// ========================================================================
-// SERVIR ARCHIVOS ESTÁTICOS DEL FRONTEND
-// ========================================================================
-// Necesario para cuando el proyecto se despliega - Express sirve los archivos del build de React
-const frontendDistPath = path.join(__dirname, '../frontend/dist');
-app.use(express.static(frontendDistPath));
 
 // ========================================================================
 // CONEXIÓN A BASE DE DATOS
@@ -220,26 +197,6 @@ app.get('/test', (req, res) => {
     // Información sobre la base de datos
     database: mongoose.connection.readyState === 1 ? 'Conectada' : 'Sin conexión'
   });
-});
-
-// --- Manejo de Errores ---
-
-// Middleware para servir index.html para rutas del frontend (SPA)
-// Esto permite que React Router maneje la navegación
-app.use((req, res, next) => {
-  // Si la ruta no es una API y no es un archivo estático, sirve el index.html
-  if (!req.path.startsWith('/api') && !req.path.includes('.')) {
-    res.sendFile(path.join(frontendDistPath, 'index.html'));
-  } else if (req.path.startsWith('/api')) {
-    // Para rutas de API no encontradas
-    res.status(404).json({
-      success: false,
-      message: 'URL no encontrada.',
-      path: req.path
-    });
-  } else {
-    next();
-  }
 });
 
 // Middleware general para manejo de errores
