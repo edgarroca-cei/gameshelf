@@ -79,8 +79,12 @@ export function SearchDropdown({ onGameSelect, className }) {
   useEffect(() => {
     if (isOpen && searchRef.current) {
       const rect = searchRef.current.getBoundingClientRect();
+      // Find the header element to position relative to it
+      const header = document.querySelector('header');
+      const headerRect = header?.getBoundingClientRect();
+
       setDropdownPosition({
-        top: rect.bottom,
+        top: headerRect ? headerRect.bottom : rect.bottom,
         left: rect.left,
       });
     }
@@ -130,7 +134,7 @@ export function SearchDropdown({ onGameSelect, className }) {
             input: {
               backgroundColor: 'rgba(255, 255, 255, 0.1)',
               border: '1px solid rgba(255, 255, 255, 0.15)',
-              color: '#fff',
+              color: '#fff !important',
               '&::placeholder': {
                 color: 'rgba(255, 255, 255, 0.5)',
               },
@@ -151,6 +155,8 @@ export function SearchDropdown({ onGameSelect, className }) {
             top: `${dropdownPosition.top}px`,
             left: `${dropdownPosition.left}px`,
             width: searchRef.current?.offsetWidth || 400,
+            borderRadius: '0 0 20px 20px !important',
+            overflow: 'hidden !important',
           }}
         >
           {loading ? (
@@ -158,7 +164,14 @@ export function SearchDropdown({ onGameSelect, className }) {
               <Loader size="sm" color="pink" />
             </Center>
           ) : searchResults.length > 0 ? (
-            <ScrollArea style={{ height: 'auto', maxHeight: 400 }}>
+            <ScrollArea
+              style={{
+                height: 'auto',
+                maxHeight: 400,
+                overflow: 'auto'
+              }}
+              scrollbarSize={6}
+            >
               <Stack gap="8px" p="8px">
                 {searchResults.map((game) => (
                   <div

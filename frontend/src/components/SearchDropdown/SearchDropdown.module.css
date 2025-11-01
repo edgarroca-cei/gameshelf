@@ -16,13 +16,12 @@
   margin: 0;
   background: #4a1d8d !important;
   backdrop-filter: blur(10px) !important;
-  
-  border-radius: 0 0 20px 20px;
+  border-radius: 0 0 20px 20px !important;
   z-index: 10000;
   animation: slideDown 0.2s ease-out;
   max-width: 400px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
+  overflow: hidden !important;
 }
 
 @keyframes slideDown {
