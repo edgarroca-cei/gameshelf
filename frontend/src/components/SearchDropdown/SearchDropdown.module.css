@@ -9,10 +9,7 @@
 }
 
 .dropdown {
-  position: absolute;
-  top: auto;
-  left: auto;
-  right: auto;
+  position: fixed;
   margin: 0;
   background: rgba(255, 255, 255, 0.08) !important;
   backdrop-filter: blur(10px) !important;

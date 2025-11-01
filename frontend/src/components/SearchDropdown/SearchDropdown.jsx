@@ -6,6 +6,7 @@
 // Muestra resultados en tiempo real conforme el usuario escribe
 
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import {
   TextInput,
   Paper,
@@ -77,19 +78,11 @@ export function SearchDropdown({ onGameSelect, className }) {
   // Calcula la posición del dropdown cuando se abre
   useEffect(() => {
     if (isOpen && searchRef.current) {
-      const header = document.querySelector('header');
-      const searchContainer = searchRef.current;
-
-      if (header && searchContainer) {
-        const headerRect = header.getBoundingClientRect();
-        const searchRect = searchContainer.getBoundingClientRect();
-
-        // Position the dropdown at the bottom of the header, aligned with the search input
-        setDropdownPosition({
-          top: headerRect.bottom - searchRect.top,
-          left: 0,
-        });
-      }
+      const rect = searchRef.current.getBoundingClientRect();
+      setDropdownPosition({
+        top: rect.bottom,
+        left: rect.left,
+      });
     }
   }, [isOpen]);
 
@@ -122,32 +115,34 @@ export function SearchDropdown({ onGameSelect, className }) {
   };
 
   return (
-    <div className={classes.container} ref={searchRef}>
-      <TextInput
-        placeholder=""
-        variant="filled"
-        radius="xl"
-        leftSection={<IconSearch size={16} />}
-        className={classes.search}
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.currentTarget.value)}
-        onFocus={() => searchQuery.trim() && setIsOpen(true)}
-          styles={{
-            input: {
-              backgroundColor: 'rgba(255, 255, 255, 0.1)',
-              border: '1px solid rgba(255, 255, 255, 0.15)',
-              color: '#fff !important',
-              '&::placeholder': {
-                color: '#fff',
+    <>
+      <div className={classes.container} ref={searchRef}>
+        <TextInput
+          placeholder=""
+          variant="filled"
+          radius="xl"
+          leftSection={<IconSearch size={16} />}
+          className={classes.search}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.currentTarget.value)}
+          onFocus={() => searchQuery.trim() && setIsOpen(true)}
+            styles={{
+              input: {
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                border: '1px solid rgba(255, 255, 255, 0.15)',
+                color: '#fff !important',
+                '&::placeholder': {
+                  color: '#fff',
+                },
+                '&:focus': {
+                  borderColor: 'rgba(255, 255, 255, 0.5)',
+                },
               },
-              '&:focus': {
-                borderColor: 'rgba(255, 255, 255, 0.5)',
-              },
-            },
-          }}
-      />
+            }}
+        />
+      </div>
 
-      {isOpen && (
+      {isOpen && createPortal(
         <Paper
           className={classes.dropdown}
           shadow="lg"
@@ -208,8 +203,9 @@ export function SearchDropdown({ onGameSelect, className }) {
               </Text>
             </Center>
           )}
-        </Paper>
+        </Paper>,
+        document.body
       )}
-    </div>
+    </>
   );
 }
