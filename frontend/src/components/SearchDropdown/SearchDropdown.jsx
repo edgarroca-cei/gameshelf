@@ -124,7 +124,7 @@ export function SearchDropdown({ onGameSelect, className }) {
   return (
     <div className={classes.container} ref={searchRef}>
       <TextInput
-        placeholder="Buscar juegos..."
+        placeholder=""
         variant="filled"
         radius="xl"
         leftSection={<IconSearch size={16} />}
