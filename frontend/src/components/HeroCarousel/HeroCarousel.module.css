@@ -85,11 +85,18 @@
 .navButton {
     background-color: rgba(139, 92, 246, 0.9) !important;
     border: none !important;
-    transition: all 150ms ease;
+    transition: all 150ms ease !important;
+    color: white !important;
+    border-radius: 50% !important;
+    width: 48px !important;
+    height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
 .navButton:hover {
-    transform: scale(1.15);
+    transform: scale(1.15) !important;
     background-color: #7c3aed !important;
 }
 
