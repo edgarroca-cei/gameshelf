@@ -164,19 +164,19 @@ export function GameDetailModal({ opened, onClose, game, onStatusChange, onDelet
                     {
                       status: 'Pendiente',
                       color: 'pink',
-                      bg: 'rgba(255, 105, 180, 0.8)',
+                      bg: '#D83772', // Color sólido para mejor contraste
                       label: currentStatus === 'Pendiente' && isLibraryGame ? 'Por jugar' : (isLibraryGame ? 'Pendiente' : 'Por jugar')
                     },
                     {
                       status: 'Jugando',
                       color: 'blue',
-                      bg: 'rgba(65, 105, 225, 0.8)',
+                      bg: '#3366FF', // Color sólido para mejor contraste
                       label: currentStatus === 'Jugando' && isLibraryGame ? 'Jugando' : (isLibraryGame ? 'Jugando' : 'Jugando')
                     },
                     {
                       status: 'Completado',
                       color: 'green',
-                      bg: 'rgba(34, 139, 34, 0.6)',
+                      bg: '#2E8B57', // Color sólido para mejor contraste
                       label: currentStatus === 'Completado' && isLibraryGame ? 'Completado' : (isLibraryGame ? 'Completado' : 'Completado')
                     }
                   ];
