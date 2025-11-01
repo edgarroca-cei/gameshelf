@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  base: './', // Importante para Vercel - rutas relativas para assets
   server: {
     port: 5173,
     host: 'localhost',
@@ -12,16 +13,22 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: false,
-    cssCodeSplit: false, // Importante para CSS modules en producción
+    assetsDir: 'assets', // Directorio específico para assets
+    cssCodeSplit: true, // Cambiar a true pero con configuración específica
     rollupOptions: {
       output: {
-        manualChunks: undefined, // Evita chunking que puede afectar CSS
+        // Configuración específica para CSS modules
+        assetFileNames: 'assets/[name]-[hash][extname]',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
       },
     },
   },
   css: {
     modules: {
-      localsConvention: 'camelCase', // Asegura consistencia en nombres de clase
+      localsConvention: 'camelCase',
+      generateScopedName: '[name]__[local]___[hash:base64:5]', // Nombres más consistentes
     },
+    devSourcemap: true, // Mejor debugging en desarrollo
   },
 })
