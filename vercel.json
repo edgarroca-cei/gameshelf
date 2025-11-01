@@ -9,8 +9,8 @@
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "installCommand": "npm --prefix frontend install && npm --prefix frontend run build",
-        "distDir": "frontend/dist"
+        "installCommand": "cd frontend && npm install && npm run build",
+        "distDir": "dist"
       }
     }
   ],
@@ -21,7 +21,7 @@
     },
     {
       "source": "/(.*)",
-      "destination": "frontend/index.html"
+      "destination": "/index.html"
     }
   ]
 }
