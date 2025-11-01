@@ -76,7 +76,16 @@ export function GameDetailModal({ opened, onClose, game, onStatusChange, onDelet
         header: classes.modalHeader,
         body: classes.modalBody,
       }}
-      overlayProps={{ backgroundOpacity: 0.3, blur: 2 }}
+      overlayProps={{
+        backgroundOpacity: 0.5,
+        blur: 3,
+        style: { backdropFilter: 'blur(3px)' }
+      }}
+      style={{
+        zIndex: 2000,
+        position: 'relative'
+      }}
+      withinPortal={true}
     >
       <div className={classes.container}>
         {/* Botón cerrar */}
