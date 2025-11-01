@@ -335,3 +335,13 @@
     height: 48px !important;
     cursor: pointer !important;
 }
+
+/* ===========================================
+   BASE RULES - DESKTOP DEFAULT STATE
+   =========================================== */
+
+/* Hide mobile components on desktop by default */
+.mobileSearchIcon,
+.mobileMenuTrigger {
+    display: none !important;
+}
