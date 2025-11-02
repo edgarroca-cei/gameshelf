@@ -27,9 +27,22 @@ export function SearchDropdown({ onGameSelect, className }) {
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+  const [isMobile, setIsMobile] = useState(false);
 
   const searchRef = useRef(null);
   const timeoutRef = useRef(null);
+
+  // Detecta si estamos en móvil/tablet
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth <= 1024);
+    };
+
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, []);
 
   // Busca juegos conforme el usuario escribe
   useEffect(() => {
@@ -99,12 +112,19 @@ export function SearchDropdown({ onGameSelect, className }) {
     }
   }, [isOpen]);
 
-  // Actualiza la posición cuando se hace scroll
+  // Actualiza la posición cuando se hace scroll o cambia el tamaño de la ventana
   useEffect(() => {
     if (isOpen) {
       const handleScroll = () => updateDropdownPosition();
+      const handleResize = () => updateDropdownPosition();
+
       window.addEventListener('scroll', handleScroll, true);
-      return () => window.removeEventListener('scroll', handleScroll, true);
+      window.addEventListener('resize', handleResize, true);
+
+      return () => {
+        window.removeEventListener('scroll', handleScroll, true);
+        window.removeEventListener('resize', handleResize, true);
+      };
     }
   }, [isOpen]);
 
@@ -165,7 +185,7 @@ export function SearchDropdown({ onGameSelect, className }) {
         />
       </div>
 
-      {isOpen && createPortal(
+      {isOpen && !isMobile && createPortal(
         <Paper
           className={classes.dropdown}
           shadow="lg"
