@@ -209,8 +209,6 @@
         min-width: auto;
         transition: all 0.3s ease;
         border-radius: 50% !important;
-        order: -1;
-        margin-right: 12px;
     }
 
     .mobileMenuTrigger {

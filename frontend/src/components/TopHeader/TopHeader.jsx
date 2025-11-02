@@ -117,19 +117,6 @@ export function TopHeader({ onGameSelect }) {
       <div className={classes.rightSection}>
         {/* Search for desktop */}
         <SearchDropdown onGameSelect={onGameSelect} />
-        {/* Mobile Search Icon - Next to avatar when not active */}
-        {!mobileSearchActive && (
-          <ActionIcon
-            variant="subtle"
-            color="gray"
-            size="lg"
-            radius="md"
-            className={classes.mobileSearchIcon}
-            onClick={() => setMobileSearchActive(true)}
-          >
-            <IconSearch size={20} />
-          </ActionIcon>
-        )}
         <Menu shadow="md" width={220} position="bottom-end">
           <Menu.Target>
             <Avatar
@@ -151,19 +138,30 @@ export function TopHeader({ onGameSelect }) {
             </Menu.Item>
           </Menu.Dropdown>
         </Menu>
-        {/* Mobile Menu Button - Hidden when mobile search is active */}
+        {/* Mobile Search Icon - Next to avatar when not active */}
         {!mobileSearchActive && (
           <ActionIcon
             variant="subtle"
             color="gray"
             size="lg"
             radius="md"
-            className={classes.mobileMenuTrigger}
-            onClick={() => setMenuOpened(true)}
+            className={classes.mobileSearchIcon}
+            onClick={() => setMobileSearchActive(true)}
           >
-            <IconChevronDown size={20} />
+            <IconSearch size={20} />
           </ActionIcon>
         )}
+        {/* Mobile Menu Button - Always visible on mobile */}
+        <ActionIcon
+          variant="subtle"
+          color="gray"
+          size="lg"
+          radius="md"
+          className={classes.mobileMenuTrigger}
+          onClick={() => setMenuOpened(true)}
+        >
+          <IconChevronDown size={20} />
+        </ActionIcon>
       </div>
 
       {/* Mobile Search Drawer */}
