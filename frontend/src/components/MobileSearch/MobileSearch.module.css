@@ -4,12 +4,11 @@
 
 .dropdown {
   position: fixed;
-  top: 80px; /* Adjust to be below the header */
+  top: 140px; /* Adjust to be below the header and search bar */
   left: 0;
   right: 0;
   bottom: 0;
   background: rgba(15, 12, 41, 0.95) !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
   z-index: 9999;
   animation: slideInUp 0.3s ease-out;
 }

@@ -106,7 +106,7 @@ export function MobileSearch({ onGameSelect, onOpen, onClose }) {
         }}
       />
 
-      {isOpen && createPortal(
+      {isOpen && (
         <Paper
           className={classes.dropdown}
           shadow="lg"
@@ -160,8 +160,7 @@ export function MobileSearch({ onGameSelect, onOpen, onClose }) {
               </Text>
             </Center>
           )}
-        </Paper>,
-        document.body
+        </Paper>
       )}
     </>
   );
