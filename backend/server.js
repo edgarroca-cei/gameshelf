@@ -27,6 +27,7 @@ const corsOptions = {
     const allowedOrigins = [
       'http://localhost:5173', // Frontend local
       'https://gameshelf-lyart.vercel.app', // Frontend en Vercel
+      'https://gameshelf-dusky.vercel.app', // Frontend adicional en Vercel
       process.env.RENDER_EXTERNAL_URL, // URL del propio backend en Render
       process.env.CORS_ORIGIN, // Origen personalizado desde variables de entorno
     ].filter(Boolean);
