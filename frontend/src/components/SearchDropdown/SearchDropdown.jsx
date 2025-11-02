@@ -185,7 +185,7 @@ export function SearchDropdown({ onGameSelect, className }) {
         />
       </div>
 
-      {isOpen && !isMobile && createPortal(
+      {isOpen && createPortal(
         <Paper
           className={classes.dropdown}
           shadow="lg"
