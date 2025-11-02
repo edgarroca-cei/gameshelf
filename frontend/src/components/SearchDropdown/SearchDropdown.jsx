@@ -79,11 +79,16 @@ export function SearchDropdown({ onGameSelect, className }) {
   // Calcula la posición del dropdown
   const updateDropdownPosition = () => {
     if (searchRef.current) {
-      const rect = searchRef.current.getBoundingClientRect();
-      setDropdownPosition({
-        top: rect.bottom + window.scrollY,
-        left: rect.left + window.scrollX,
-      });
+      const header = document.querySelector('header');
+      const searchRect = searchRef.current.getBoundingClientRect();
+
+      if (header) {
+        const headerRect = header.getBoundingClientRect();
+        setDropdownPosition({
+          top: headerRect.bottom + window.scrollY,
+          left: searchRect.left + window.scrollX,
+        });
+      }
     }
   };
 
