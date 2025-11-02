@@ -38,7 +38,6 @@ import classes from './TopHeader.module.css';
 export function TopHeader({ onGameSelect }) {
   const [menuOpened, setMenuOpened] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
-  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
 
 
   const navigate = useNavigate();
