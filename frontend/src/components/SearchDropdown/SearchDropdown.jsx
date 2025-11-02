@@ -6,6 +6,7 @@
 // Muestra resultados en tiempo real conforme el usuario escribe
 
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import {
   TextInput,
   Paper,
@@ -25,6 +26,7 @@ export function SearchDropdown({ onGameSelect, className }) {
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
 
   const searchRef = useRef(null);
   const timeoutRef = useRef(null);
@@ -49,14 +51,14 @@ export function SearchDropdown({ onGameSelect, className }) {
       try {
         const response = await gameService.searchRAWGGames(searchQuery);
         const games = Array.isArray(response.data) ? response.data : response.data?.results || [];
-        
+
         // Normaliza los datos
         const normalizedGames = games.slice(0, 8).map(game => ({
           ...game,
           title: game.name,
           coverImage: game.background_image,
         }));
-        
+
         setSearchResults(normalizedGames);
         setIsOpen(true);
       } catch (error) {
@@ -74,19 +76,51 @@ export function SearchDropdown({ onGameSelect, className }) {
     };
   }, [searchQuery]);
 
+  // Calcula la posición del dropdown
+  const updateDropdownPosition = () => {
+    if (searchRef.current) {
+      const rect = searchRef.current.getBoundingClientRect();
+      setDropdownPosition({
+        top: rect.bottom + window.scrollY,
+        left: rect.left + window.scrollX,
+      });
+    }
+  };
+
+  // Actualiza la posición cuando se abre el dropdown
+  useEffect(() => {
+    if (isOpen) {
+      updateDropdownPosition();
+    }
+  }, [isOpen]);
+
+  // Actualiza la posición cuando se hace scroll
+  useEffect(() => {
+    if (isOpen) {
+      const handleScroll = () => updateDropdownPosition();
+      window.addEventListener('scroll', handleScroll, true);
+      return () => window.removeEventListener('scroll', handleScroll, true);
+    }
+  }, [isOpen]);
+
 
 
   // Cierra el dropdown cuando se hace clic fuera
   useEffect(() => {
     const handleClickOutside = (event) => {
+      // Verifica si el clic fue fuera del contenedor de búsqueda y del dropdown
       if (searchRef.current && !searchRef.current.contains(event.target)) {
-        setIsOpen(false);
+        // Verifica si el clic fue en el dropdown (que está en el body)
+        const dropdown = document.querySelector(`.${classes.dropdown}`);
+        if (dropdown && !dropdown.contains(event.target)) {
+          setIsOpen(false);
+        }
       }
     };
 
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
-  }, []);
+  }, [classes.dropdown]);
 
   const handleGameClick = (game) => {
     console.log('Resultado seleccionado:', game);
@@ -126,12 +160,14 @@ export function SearchDropdown({ onGameSelect, className }) {
         />
       </div>
 
-      {isOpen && (
+      {isOpen && createPortal(
         <Paper
           className={classes.dropdown}
           shadow="lg"
           p="xs"
           style={{
+            top: `${dropdownPosition.top}px`,
+            left: `${dropdownPosition.left}px`,
             width: searchRef.current?.offsetWidth || 400,
             borderRadius: '0 0 20px 20px !important',
             overflow: 'hidden !important',
@@ -185,7 +221,8 @@ export function SearchDropdown({ onGameSelect, className }) {
               </Text>
             </Center>
           )}
-        </Paper>
+        </Paper>,
+        document.body
       )}
     </>
   );
