@@ -6,7 +6,6 @@
 // Muestra resultados en tiempo real conforme el usuario escribe
 
 import React, { useState, useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
 import {
   TextInput,
   Paper,
@@ -26,7 +25,7 @@ export function SearchDropdown({ onGameSelect, className }) {
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+
   const searchRef = useRef(null);
   const timeoutRef = useRef(null);
 
@@ -75,39 +74,19 @@ export function SearchDropdown({ onGameSelect, className }) {
     };
   }, [searchQuery]);
 
-  // Calcula la posición del dropdown cuando se abre
-  useEffect(() => {
-    if (isOpen && searchRef.current) {
-      const header = document.querySelector('header');
-      const searchRect = searchRef.current.getBoundingClientRect();
 
-      if (header) {
-        const headerRect = header.getBoundingClientRect();
-        setDropdownPosition({
-          top: headerRect.bottom,
-          left: searchRect.left,
-        });
-      }
-    }
-  }, [isOpen]);
 
   // Cierra el dropdown cuando se hace clic fuera
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Verifica si el clic fue fuera del contenedor de búsqueda y del dropdown
       if (searchRef.current && !searchRef.current.contains(event.target)) {
-        // Verifica si el clic fue en el dropdown (que está en el body)
-        const dropdown = document.querySelector(`.${classes.dropdown}`);
-        if (dropdown && !dropdown.contains(event.target)) {
-          setIsOpen(false);
-        }
+        setIsOpen(false);
       }
     };
 
-    // Usa 'click' en lugar de 'mousedown' para que se dispare después del onClick
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
-  }, [classes.dropdown]);
+  }, []);
 
   const handleGameClick = (game) => {
     console.log('Resultado seleccionado:', game);
@@ -147,14 +126,12 @@ export function SearchDropdown({ onGameSelect, className }) {
         />
       </div>
 
-      {isOpen && createPortal(
+      {isOpen && (
         <Paper
           className={classes.dropdown}
           shadow="lg"
           p="xs"
           style={{
-            top: `${dropdownPosition.top}px`,
-            left: `${dropdownPosition.left}px`,
             width: searchRef.current?.offsetWidth || 400,
             borderRadius: '0 0 20px 20px !important',
             overflow: 'hidden !important',
@@ -208,8 +185,7 @@ export function SearchDropdown({ onGameSelect, className }) {
               </Text>
             </Center>
           )}
-        </Paper>,
-        document.body
+        </Paper>
       )}
     </>
   );
