@@ -166,7 +166,7 @@ export function TopHeader({ onGameSelect }) {
 
 
       {/* Navigation Links */}
-      <div className={classes.navLinks}>
+      <div className={`${classes.navLinks} ${mobileSearchOpen ? classes.mobileHidden : ''}`}>
         {navItems.map((item) => (
           <a
             key={item.path}

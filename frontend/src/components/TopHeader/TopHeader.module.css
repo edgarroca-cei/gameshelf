@@ -216,8 +216,7 @@
     }
 
     /* Show mobile search, hide desktop search */
-    .mobileSearchIcon,
-    .mobileMenuTrigger {
+    .mobileSearchIcon {
         display: flex !important;
     }
 
@@ -246,7 +245,8 @@
         transition: opacity 0.3s ease, transform 0.3s ease;
     }
 
-    .logo.mobileHidden {
+    .logo.mobileHidden,
+    .navLinks.mobileHidden {
         opacity: 0;
         transform: scaleX(0);
         pointer-events: none;
