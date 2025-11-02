@@ -16,12 +16,14 @@ import {
   Stack,
   Text,
   Badge,
+  ActionIcon,
+  Group,
 } from '@mantine/core';
-import { IconSearch } from '@tabler/icons-react';
+import { IconSearch, IconX } from '@tabler/icons-react';
 import * as gameService from '../../services/api.service';
 import classes from './SearchDropdown.module.css';
 
-export function SearchDropdown({ onGameSelect, className }) {
+export function SearchDropdown({ onGameSelect, className, mobileMode = false, onClose }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -159,16 +161,53 @@ export function SearchDropdown({ onGameSelect, className }) {
 
   return (
     <>
-      <div className={classes.container} ref={searchRef}>
-        <TextInput
-          placeholder=""
-          variant="filled"
-          radius="xl"
-          leftSection={<IconSearch size={16} />}
-          className={classes.search}
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.currentTarget.value)}
-          onFocus={() => searchQuery.trim() && setIsOpen(true)}
+      <div className={`${classes.container} ${mobileMode ? classes['mobile-mode'] : ''}`} ref={searchRef}>
+        {mobileMode ? (
+          <Group gap="xs" align="center">
+            <TextInput
+              placeholder="Buscar juegos..."
+              variant="filled"
+              radius="xl"
+              leftSection={<IconSearch size={16} />}
+              className={classes.search}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.currentTarget.value)}
+              onFocus={() => searchQuery.trim() && setIsOpen(true)}
+              styles={{
+                input: {
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                  color: '#fff !important',
+                  '&::placeholder': {
+                    color: '#fff',
+                  },
+                  '&:focus': {
+                    borderColor: 'rgba(255, 255, 255, 0.5)',
+                  },
+                },
+              }}
+              style={{ flex: 1 }}
+            />
+            <ActionIcon
+              variant="subtle"
+              color="gray"
+              size="lg"
+              radius="md"
+              onClick={onClose}
+            >
+              <IconX size={20} />
+            </ActionIcon>
+          </Group>
+        ) : (
+          <TextInput
+            placeholder=""
+            variant="filled"
+            radius="xl"
+            leftSection={<IconSearch size={16} />}
+            className={classes.search}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.currentTarget.value)}
+            onFocus={() => searchQuery.trim() && setIsOpen(true)}
             styles={{
               input: {
                 backgroundColor: 'rgba(255, 255, 255, 0.1)',
@@ -182,10 +221,11 @@ export function SearchDropdown({ onGameSelect, className }) {
                 },
               },
             }}
-        />
+          />
+        )}
       </div>
 
-      {isOpen && !isMobile && createPortal(
+      {isOpen && (!isMobile || mobileMode) && createPortal(
         <Paper
           className={classes.dropdown}
           shadow="lg"

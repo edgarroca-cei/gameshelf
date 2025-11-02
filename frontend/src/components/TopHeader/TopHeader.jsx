@@ -38,7 +38,7 @@ import classes from './TopHeader.module.css';
 export function TopHeader({ onGameSelect }) {
   const [menuOpened, setMenuOpened] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
-
+  const [mobileSearchActive, setMobileSearchActive] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -75,45 +75,61 @@ export function TopHeader({ onGameSelect }) {
         gridArea: 'header',
       }}
     >
-        {/* Logo */}
-      <div
-        className={`${classes.logo}`}
-        onClick={() => navigate('/')}>
-        GameShelf
-      </div>
+        {/* Logo - Hidden when mobile search is active */}
+      {!mobileSearchActive && (
+        <div
+          className={`${classes.logo}`}
+          onClick={() => navigate('/')}>
+          GameShelf
+        </div>
+      )}
 
+      {/* Navigation Links - Hidden when mobile search is active */}
+      {!mobileSearchActive && (
+        <div className={classes.navLinks}>
+          {navItems.map((item) => (
+            <a
+              key={item.path}
+              href={item.path}
+              className={`${classes.navLink} ${isActive(item.path) ? classes.active : ''}`}
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+      )}
 
-
-
-
-      {/* Navigation Links */}
-      <div className={classes.navLinks}>
-        {navItems.map((item) => (
-          <a
-            key={item.path}
-            href={item.path}
-            className={`${classes.navLink} ${isActive(item.path) ? classes.active : ''}`}
-          >
-            {item.label}
-          </a>
-        ))}
-      </div>
+      {/* Mobile Search Bar - Shown when mobile search is active */}
+      {mobileSearchActive && (
+        <div className={classes.mobileSearchBar}>
+          <SearchDropdown
+            onGameSelect={(game) => {
+              onGameSelect(game);
+              setMobileSearchActive(false);
+            }}
+            mobileMode={true}
+            onClose={() => setMobileSearchActive(false)}
+          />
+        </div>
+      )}
 
       {/* Right Section - Search, Notifications, Avatar */}
       <div className={classes.rightSection}>
         {/* Search for desktop */}
         <SearchDropdown onGameSelect={onGameSelect} />
-        {/* Mobile Search Icon */}
-        <ActionIcon
-          variant="subtle"
-          color="gray"
-          size="lg"
-          radius="md"
-          className={classes.mobileSearchIcon}
-          onClick={() => setMobileSearchOpen(true)}
-        >
-          <IconSearch size={20} />
-        </ActionIcon>
+        {/* Mobile Search Icon - Next to avatar when not active */}
+        {!mobileSearchActive && (
+          <ActionIcon
+            variant="subtle"
+            color="gray"
+            size="lg"
+            radius="md"
+            className={classes.mobileSearchIcon}
+            onClick={() => setMobileSearchActive(true)}
+          >
+            <IconSearch size={20} />
+          </ActionIcon>
+        )}
         <Menu shadow="md" width={220} position="bottom-end">
           <Menu.Target>
             <Avatar
@@ -135,17 +151,19 @@ export function TopHeader({ onGameSelect }) {
             </Menu.Item>
           </Menu.Dropdown>
         </Menu>
-        {/* Mobile Menu Button - Right of Avatar */}
-        <ActionIcon
-          variant="subtle"
-          color="gray"
-          size="lg"
-          radius="md"
-          className={classes.mobileMenuTrigger}
-          onClick={() => setMenuOpened(true)}
-        >
-          <IconChevronDown size={20} />
-        </ActionIcon>
+        {/* Mobile Menu Button - Hidden when mobile search is active */}
+        {!mobileSearchActive && (
+          <ActionIcon
+            variant="subtle"
+            color="gray"
+            size="lg"
+            radius="md"
+            className={classes.mobileMenuTrigger}
+            onClick={() => setMenuOpened(true)}
+          >
+            <IconChevronDown size={20} />
+          </ActionIcon>
+        )}
       </div>
 
       {/* Mobile Search Drawer */}

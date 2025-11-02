@@ -106,9 +106,9 @@
    RESPONSIVE DESIGN
    =========================================== */
 
-/* Hide SearchDropdown on tablets and mobile (≤1024px) */
+/* Hide SearchDropdown on tablets and mobile (≤1024px) by default, but allow when in mobile mode */
 @media (max-width: 1024px) {
-  .container {
+  .container:not(.mobile-mode) {
     display: none !important;
   }
 }
