@@ -27,7 +27,6 @@ import { IconLogout, IconChevronDown, IconSearch, IconX } from '@tabler/icons-re
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth.jsx';
 import { SearchDropdown } from '../SearchDropdown/SearchDropdown';
-import { MobileSearch } from '../MobileSearch/MobileSearch';
 import * as gameService from '../../services/api.service';
 import classes from './TopHeader.module.css';
 
@@ -38,6 +37,11 @@ import classes from './TopHeader.module.css';
 export function TopHeader({ onGameSelect }) {
   const [menuOpened, setMenuOpened] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const [mobileSearchQuery, setMobileSearchQuery] = useState('');
+  const [mobileSearchResults, setMobileSearchResults] = useState([]);
+  const [mobileLoading, setMobileLoading] = useState(false);
+  const [mobileDropdownPosition, setMobileDropdownPosition] = useState({ top: 0, left: 0 });
+  const mobileSearchTimeoutRef = useRef(null);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -59,7 +63,58 @@ export function TopHeader({ onGameSelect }) {
 
   const isActive = (path) => location.pathname === path;
 
+  // Busca juegos conforme el usuario escribe en móvil
+  useEffect(() => {
+    // Limpia el timeout anterior
+    if (mobileSearchTimeoutRef.current) {
+      clearTimeout(mobileSearchTimeoutRef.current);
+    }
 
+    // Si no hay query, cierra los resultados
+    if (!mobileSearchQuery.trim()) {
+      setMobileSearchResults([]);
+      return;
+    }
+
+    // Espera 300ms antes de hacer la búsqueda (debounce)
+    setMobileLoading(true);
+    mobileSearchTimeoutRef.current = setTimeout(async () => {
+      try {
+        const response = await gameService.searchRAWGGames(mobileSearchQuery);
+        const games = Array.isArray(response.data) ? response.data : response.data?.results || [];
+
+        // Normaliza los datos
+        const normalizedGames = games.slice(0, 6).map(game => ({
+          ...game,
+          title: game.name,
+          coverImage: game.background_image,
+        }));
+
+        setMobileSearchResults(normalizedGames);
+      } catch (error) {
+        console.error('Error en búsqueda móvil:', error);
+        setMobileSearchResults([]);
+      } finally {
+        setMobileLoading(false);
+      }
+    }, 300);
+
+    return () => {
+      if (mobileSearchTimeoutRef.current) {
+        clearTimeout(mobileSearchTimeoutRef.current);
+      }
+    };
+  }, [mobileSearchQuery]);
+
+  const handleMobileGameClick = (game) => {
+    console.log('Resultado móvil seleccionado:', game);
+    if (onGameSelect) {
+      onGameSelect(game);
+    }
+    setMobileSearchQuery('');
+    setMobileSearchResults([]);
+    setMobileSearchOpen(false);
+  };
 
   const navItems = [
     { label: 'Inicio', path: '/' },
@@ -72,16 +127,41 @@ export function TopHeader({ onGameSelect }) {
       className={classes.header}
       style={{
         gridArea: 'header',
+        position: mobileSearchQuery.trim() && mobileSearchOpen ? 'relative' : 'static',
+        zIndex: mobileSearchQuery.trim() && mobileSearchOpen ? 10000 : 'auto',
       }}
     >
         {/* Logo */}
       <div
-        className={`${classes.logo}`}
+        className={`${classes.logo} ${mobileSearchOpen ? classes.mobileHidden : ''}`}
         onClick={() => navigate('/')}>
         GameShelf
       </div>
 
-
+      {/* Mobile Search Bar - Only visible when expanded */}
+      {mobileSearchOpen && (
+        <div className={classes.mobileSearchBar}>
+          <TextInput
+            placeholder="Buscar juegos..."
+            variant="filled"
+            radius="xl"
+            leftSection={<IconSearch size={16} />}
+            classNames={{
+              input: classes.mobileSearchInput,
+            }}
+            value={mobileSearchQuery}
+            onChange={(e) => setMobileSearchQuery(e.currentTarget.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Escape') {
+                setMobileSearchOpen(false);
+                setMobileSearchQuery('');
+                setMobileSearchResults([]);
+              }
+            }}
+            autoFocus
+          />
+        </div>
+      )}
 
 
 
@@ -108,10 +188,18 @@ export function TopHeader({ onGameSelect }) {
           color="gray"
           size="lg"
           radius="md"
-          className={classes.mobileSearchIcon}
-          onClick={() => setMobileSearchOpen(true)}
+          className={`${classes.mobileSearchIcon} ${mobileSearchOpen ? classes.expanded : ''}`}
+          onClick={() => {
+            const newState = !mobileSearchOpen;
+            if (!newState) {
+              // Limpiar estado cuando se cierra
+              setMobileSearchQuery('');
+              setMobileSearchResults([]);
+            }
+            setMobileSearchOpen(newState);
+          }}
         >
-          <IconSearch size={20} />
+          {mobileSearchOpen ? <IconX size={20} /> : <IconSearch size={20} />}
         </ActionIcon>
         <Menu shadow="md" width={220} position="bottom-end">
           <Menu.Target>
@@ -146,43 +234,6 @@ export function TopHeader({ onGameSelect }) {
           <IconChevronDown size={20} />
         </ActionIcon>
       </div>
-
-      {/* Mobile Search Drawer */}
-      <Drawer
-        opened={mobileSearchOpen}
-        onClose={() => setMobileSearchOpen(false)}
-        title="Buscar juegos"
-        position="bottom"
-        size="100%"
-        styles={{
-          content: {
-            background: 'rgba(15, 12, 41, 0.95)',
-            borderTop: '1px solid rgba(255, 255, 255, 0.15)',
-            backdropFilter: 'blur(10px)',
-          },
-          header: {
-            background: 'transparent',
-            borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-          },
-          title: {
-            color: '#ffffff',
-            fontWeight: 'bold',
-          },
-          close: {
-            color: '#ffffff',
-            '&:hover': {
-              backgroundColor: 'rgba(255, 255, 255, 0.1)',
-            },
-          },
-        }}
-      >
-        <MobileSearch
-          onGameSelect={(game) => {
-            onGameSelect(game);
-            setMobileSearchOpen(false);
-          }}
-        />
-      </Drawer>
 
       {/* Mobile Navigation Drawer */}
       <Drawer
@@ -253,7 +304,88 @@ export function TopHeader({ onGameSelect }) {
         </div>
       </Drawer>
 
+      {/* Mobile Search Backdrop - Blur effect */}
+      {mobileSearchQuery.trim() && mobileSearchOpen && createPortal(
+        <div
+          style={{
+            position: 'fixed',
+            top: '80px', // Start below the header
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            backdropFilter: 'blur(4px)',
+            zIndex: 9998,
+          }}
+          onClick={() => {
+            setMobileSearchOpen(false);
+            setMobileSearchQuery('');
+            setMobileSearchResults([]);
+          }}
+        />,
+        document.body
+      )}
 
+      {/* Mobile Search Dropdown */}
+      {mobileSearchQuery.trim() && mobileSearchOpen && createPortal(
+        <Paper
+          className={classes.mobileDropdown}
+          shadow="lg"
+          p="xs"
+          style={{
+            position: 'fixed',
+            top: '120px',
+            left: '16px',
+            right: '16px',
+            zIndex: 9999,
+            maxHeight: '60vh',
+            overflow: 'hidden',
+          }}
+        >
+          {mobileLoading ? (
+            <Center py="xl">
+              <Loader size="sm" color="pink" />
+            </Center>
+          ) : mobileSearchResults.length > 0 ? (
+            <ScrollArea style={{ height: 'auto', maxHeight: '55vh' }}>
+              <Stack gap="8px" p="8px">
+                {mobileSearchResults.map((game) => (
+                  <div
+                    key={game.id}
+                    className={classes.resultItem}
+                    onClick={() => handleMobileGameClick(game)}
+                  >
+                    {game.coverImage && (
+                      <img
+                        src={game.coverImage}
+                        alt={game.title}
+                        className={classes.resultImage}
+                      />
+                    )}
+                    <div className={classes.resultContent}>
+                      <div className={classes.resultTitle}>
+                        {game.title}
+                      </div>
+                      {game.rating && (
+                        <div className={classes.resultRating}>
+                          ⭐ {game.rating.toFixed(1)}/5
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </Stack>
+            </ScrollArea>
+          ) : (
+            <Center py="xl">
+              <Text size="sm" c="dimmed">
+                No se encontraron juegos
+              </Text>
+            </Center>
+          )}
+        </Paper>,
+        document.body
+      )}
     </header>
   );
 }

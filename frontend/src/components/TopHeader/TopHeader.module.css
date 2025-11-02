@@ -59,9 +59,61 @@
     transition: all 0.3s ease;
 }
 
+/* Mobile search bar container */
+.mobileSearchBar {
+    position: absolute;
+    left: 40px; /* More to the left */
+    right: 180px; /* Even shorter from the right */
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    animation: expandSearch 0.3s ease-out;
+    max-width: 60%; /* Better proportion */
+}
 
+@keyframes expandSearch {
+    from {
+        right: 72px;
+        left: calc(100% - 56px); /* Start from search icon position */
+        opacity: 0;
+        max-width: 0;
+        transform: translateY(-50%) scaleX(0);
+    }
+    to {
+        left: 40px;
+        right: 180px;
+        opacity: 1;
+        max-width: 60%;
+        transform: translateY(-50%) scaleX(1);
+    }
+}
 
+/* Mobile search input */
+.mobileSearchInput {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: #fff !important;
+    border-radius: 20px !important;
+    font-size: 16px !important; /* Prevents zoom on iOS */
+    min-height: 44px !important;
+}
 
+.mobileSearchInput::placeholder {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.mobileSearchInput:focus {
+    border-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Mobile dropdown */
+.mobileDropdown {
+    background: rgba(15, 12, 41, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(10px) !important;
+    border-radius: 16px !important;
+    animation: slideDown 0.2s ease-out;
+}
 
 @keyframes slideDown {
     from {
@@ -187,7 +239,42 @@
         transition: opacity 0.3s ease, transform 0.3s ease;
     }
 
+    .logo.mobileHidden {
+        opacity: 0;
+        transform: scaleX(0);
+        pointer-events: none;
+    }
 
+    /* Hide navigation */
+    .navLinks {
+        display: none;
+    }
+
+    /* Show mobile components */
+    .mobileSearchIcon {
+        display: flex !important;
+        flex-shrink: 0;
+        padding: 8px;
+        min-width: auto;
+        transition: all 0.3s ease;
+        border-radius: 50% !important;
+        order: -1;
+        margin-right: 12px;
+    }
+
+    .mobileSearchIcon.expanded {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        transform: none;
+        box-shadow: none;
+    }
+
+    .mobileSearchIcon:not(.expanded) {
+        background-color: transparent !important;
+        border: none !important;
+        transform: none;
+        box-shadow: none;
+    }
 
     .mobileMenuTrigger {
         display: flex !important;
