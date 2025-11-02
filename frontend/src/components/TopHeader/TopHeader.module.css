@@ -187,6 +187,14 @@
     display: none !important;
 }
 
+
+.logo.mobileHidden,
+.navLinks.mobileHidden {
+    opacity: 0;
+    transform: scaleX(0);
+    pointer-events: none;
+}
+
 /* Tablet (768px - 1024px)
    - Compact navigation
    - Show mobile search icon
@@ -222,6 +230,10 @@
 
     .rightSection > :first-child {
         display: none;
+    .mobileSearchIcon.expanded {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        border-radius: 50% !important;
     }
 }
 
@@ -243,13 +255,6 @@
     .logo {
         display: block;
         transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-
-    .logo.mobileHidden,
-    .navLinks.mobileHidden {
-        opacity: 0;
-        transform: scaleX(0);
-        pointer-events: none;
     }
 
     /* Hide navigation */
