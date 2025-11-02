@@ -275,8 +275,10 @@
    BASE RULES - DESKTOP DEFAULT STATE
    =========================================== */
 
-/* Hide mobile components on desktop by default */
-.mobileSearchIcon,
-.mobileMenuTrigger {
-    display: none !important;
+/* Hide mobile components on desktop (>1024px) by default */
+@media (min-width: 1025px) {
+    .mobileSearchIcon,
+    .mobileMenuTrigger {
+        display: none !important;
+    }
 }
